@@ -119,7 +119,7 @@ var processor = new CoinProcessor();
 
 
 // Cache input element
-var $input = $('.main-container input');
+var $input = $('#amount-input');
 
 $input.on('keypress', function (e) {
     if (e.keyCode === 13) {
