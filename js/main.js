@@ -1,4 +1,4 @@
-var CoinProcessor = function () {
+var CoinProcessor = function (testing) {
     var self = this,
         _regex = /^£?(\d+)(?:\.(\d*))?p?$/i;
         _coins = [{value: 200, text: '£2'}, {value: 100, text: '£1'}, {value: 50, text: '50p'},
@@ -74,7 +74,7 @@ var CoinProcessor = function () {
 
     // Display error on screen
     self.error = function (error) {
-        if ($error == null)
+        if (testing === true)
             return;
 
         if (typeof error == 'string') {
@@ -102,6 +102,15 @@ var CoinProcessor = function () {
             $output.appendChild(element);
         }
     };
+
+    if (testing === true) {
+        return this;
+    } else {
+        // Expose object methods
+        return {
+            process: this.process
+        };
+    }
 };
 
 
