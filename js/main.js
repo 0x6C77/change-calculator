@@ -3,12 +3,17 @@ var CoinProcessor = function () {
         _regex = /^£?(\d+)(?:\.(\d*))?p?$/i;
         _coins = [{value: 200, text: '£2'}, {value: 100, text: '£1'}, {value: 50, text: '50p'},
                   {value: 20, text: '20p'}, {value: 10, text: '10p'}, {value: 5, text: '5p'},
-                  {value: 2, text: '2p'}, {value: 1, text: '1p'}];
+                  {value: 2, text: '2p'}, {value: 1, text: '1p'}],
+        $output = $('.main-container .change-output')[0],
+        $error = $('.main-container .error')[0];
 
     // Takes users input, validates and calculates correct change
     this.process = function(value) {
         var amount = self.convert(value);
-        var coins = self.calculateChange(amount);
+        if (amount !== false) {
+            var coins = self.calculateChange(amount);
+            self.display(coins);
+        }
     };
 
     // Validate user input is valid string, returns false for invalid string
@@ -23,6 +28,7 @@ var CoinProcessor = function () {
         
         // Invalid input
         if (parts === null) {
+            self.error('Invalid amount entered');
             return false;
         }
 
@@ -64,6 +70,37 @@ var CoinProcessor = function () {
         }
 
         return change;
+    };
+
+    // Display error on screen
+    self.error = function (error) {
+        if ($error == null)
+            return;
+
+        if (typeof error == 'string') {
+            $error.innerHTML = error;
+            $error.style.opacity = 1;
+        } else {
+            $error.style.opacity = 0;
+        }
+    };
+
+    // Take array of coins and display in $output
+    this.display = function (coins) {
+        var i,
+            n = coins.length,
+            element;
+
+        // Hide error message
+        self.error();
+
+        // Clear previous output
+        $output.innerHTML = '';
+        for (i = 0; i < n; i += 1) {
+            element = document.createElement("li");
+            element.innerHTML = coins[i].coin + ' x' + coins[i].quantitiy;
+            $output.appendChild(element);
+        }
     };
 };
 
