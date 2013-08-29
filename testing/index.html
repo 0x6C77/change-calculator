@@ -18,79 +18,79 @@
     var processor = new CoinProcessor();
 
         wru.test([{
-            name: "Parse valid amounts",
+            name: "convert valid amounts",
             test: function () {
                 wru.assert(
                     'Single digit',
-                    processor.parse('4') === true
+                    processor.convert('4') === 4
                 );
                 wru.assert(
                     'Double digit',
-                    processor.parse('85') === true
+                    processor.convert('85') === 85
                 );
                 wru.assert(
                     'Pence symbol',
-                    processor.parse('197p') === true
+                    processor.convert('197p') === 197
                 );
                 wru.assert(
                     'Pence symbol single digit',
-                    processor.parse('2p') === true
+                    processor.convert('2p') === 2
                 );
                 wru.assert(
                     'Pound symbol',
-                    processor.parse('£1.23') === true
+                    processor.convert('£1.23') === 123
                 );
                 wru.assert(
                     'Single digit pound symbol',
-                    processor.parse('£2') === true
+                    processor.convert('£2') === 200
                 );
                 wru.assert(
                     'Double digit pound symbol',
-                    processor.parse('£10') === true
+                    processor.convert('£10') === 1000
                 );
                 wru.assert(
                     'Pound and pence symbol',
-                    processor.parse('£1.87p') === true
+                    processor.convert('£1.87p') === 187
                 );
                 wru.assert(
                     'Missing pence',
-                    processor.parse('£1p') === true
+                    processor.convert('£1p') === 100
                 );
                 wru.assert(
                     'Missing pence but present decimal',
-                    processor.parse('£1.p') === true
+                    processor.convert('£1.p') === 100
                 );
                 wru.assert(
                     'Buffered zeros',
-                    processor.parse('001.41p') === true
+                    processor.convert('001.41p') === 141
                 );
                 wru.assert(
                     'Rounding three decimal places to two',
-                    processor.parse('4.235p') === true
+                    processor.convert('4.235p') === 424
                 );
                 wru.assert(
                     'Rounding with symbols',
-                    processor.parse('£1.257422457p') === true
+                    processor.convert('£1.257422457p') === 126
                 );
             }
         }, {
-            name: "Parse invalid amounts",
+            name: "convert invalid amounts",
             test: function () {
                 wru.assert(
                     'Empty string',
-                    processor.parse('') === false
+                    processor.convert('') === false
                 );
                 wru.assert(
                     'Non-numeric character',
-                    processor.parse('1x') === false
+                    processor.convert('1x') === false
                 );
                 wru.assert(
                     'Non-numeric character 2',
-                    processor.parse('£1x.0p') === false
+                    processor.convert('£1x.0p') === false
                 );
                 wru.assert(
                     'Missing digits',
-                    processor.parse('£p') === false
+                    processor.convert('£p') === false
                 );
             }
         }]);
