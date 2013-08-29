@@ -1,0 +1,100 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Change Calculator - Test</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <script src="../js/ki.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="wru.js"></script>
+    <script>
+
+    var processor = new CoinProcessor();
+
+        wru.test([{
+            name: "Parse valid amounts",
+            test: function () {
+                wru.assert(
+                    'Single digit',
+                    processor.parse('4') === true
+                );
+                wru.assert(
+                    'Double digit',
+                    processor.parse('85') === true
+                );
+                wru.assert(
+                    'Pence symbol',
+                    processor.parse('197p') === true
+                );
+                wru.assert(
+                    'Pence symbol single digit',
+                    processor.parse('2p') === true
+                );
+                wru.assert(
+                    'Pound symbol',
+                    processor.parse('£1.23') === true
+                );
+                wru.assert(
+                    'Single digit pound symbol',
+                    processor.parse('£2') === true
+                );
+                wru.assert(
+                    'Double digit pound symbol',
+                    processor.parse('£10') === true
+                );
+                wru.assert(
+                    'Pound and pence symbol',
+                    processor.parse('£1.87p') === true
+                );
+                wru.assert(
+                    'Missing pence',
+                    processor.parse('£1p') === true
+                );
+                wru.assert(
+                    'Missing pence but present decimal',
+                    processor.parse('£1.p') === true
+                );
+                wru.assert(
+                    'Buffered zeros',
+                    processor.parse('001.41p') === true
+                );
+                wru.assert(
+                    'Rounding three decimal places to two',
+                    processor.parse('4.235p') === true
+                );
+                wru.assert(
+                    'Rounding with symbols',
+                    processor.parse('£1.257422457p') === true
+                );
+            }
+        }, {
+            name: "Parse invalid amounts",
+            test: function () {
+                wru.assert(
+                    'Empty string',
+                    processor.parse('') === false
+                );
+                wru.assert(
+                    'Non-numeric character',
+                    processor.parse('1x') === false
+                );
+                wru.assert(
+                    'Non-numeric character 2',
+                    processor.parse('£1x.0p') === false
+                );
+                wru.assert(
+                    'Missing digits',
+                    processor.parse('£p') === false
+                );
+            }
+        }]);
+
+    </script>
+</body>
+</html>

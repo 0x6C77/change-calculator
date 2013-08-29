@@ -1,0 +1,36 @@
+body {
+    font-family: sans-serif;
+    font-size: 11pt;
+    border: 1px solid #333;
+}
+
+div {
+    cursor: default;
+    padding: 0;
+    color: #000;
+}
+
+div span,
+div strong {
+    display: block;
+    padding: 4px;
+    margin: 0;
+}
+
+div ul {
+    margin: 0;
+    padding-bottom: 4px;
+}
+
+div.pass {
+    background: #90EE90;
+}
+
+div.fail {
+    background: #FF6347;
+}
+
+div.error {
+    background: #000;
+    color: #FFF;
+}
