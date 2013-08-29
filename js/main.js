@@ -1,6 +1,6 @@
 var CoinProcessor = function (testing) {
     var self = this,
-        _regex = /^£?(\d+)(?:\.(\d*))?p?$/i;
+        _regex = /^£?(\d+)(?:\.(\d*))?p?$/i,
         _coins = [{value: 200, text: '£2'}, {value: 100, text: '£1'}, {value: 50, text: '50p'},
                   {value: 20, text: '20p'}, {value: 10, text: '10p'}, {value: 5, text: '5p'},
                   {value: 2, text: '2p'}, {value: 1, text: '1p'}],
@@ -8,7 +8,7 @@ var CoinProcessor = function (testing) {
         $error = $('.main-container .error')[0];
 
     // Takes users input, validates and calculates correct change
-    this.process = function(value) {
+    this.process = function (value) {
         var amount = self.convert(value);
         if (amount !== false) {
             var coins = self.calculateChange(amount);
@@ -17,7 +17,7 @@ var CoinProcessor = function (testing) {
     };
 
     // Validate user input is valid string, returns false for invalid string
-    this.parse = function(value) {
+    this.parse = function (value) {
         return value.match(_regex);
     };
 
