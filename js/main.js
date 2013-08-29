@@ -1,6 +1,15 @@
 var CoinProcessor = function () {
     var self = this,
         _regex = /^£?(\d+)(?:\.(\d*))?p?$/i;
+        _coins = [{value: 200, text: '£2'}, {value: 100, text: '£1'}, {value: 50, text: '50p'},
+                  {value: 20, text: '20p'}, {value: 10, text: '10p'}, {value: 5, text: '5p'},
+                  {value: 2, text: '2p'}, {value: 1, text: '1p'}];
+
+    // Takes users input, validates and calculates correct change
+    this.process = function(value) {
+        var amount = self.convert(value);
+        var coins = self.calculateChange(amount);
+    };
 
     // Validate user input is valid string, returns false for invalid string
     this.parse = function(value) {
@@ -33,6 +42,29 @@ var CoinProcessor = function () {
 
         return amount;
     };
+
+    // Take an integer and return an array of the smallest denomination of coins
+    this.calculateChange = function (amount) {
+        var change = [],
+            i,
+            n = _coins.length,
+            coin,
+            quantitiy;
+
+        for (i = 0; i < n; i += 1) {
+            coin = _coins[i];
+            if (coin.value > amount) {
+                continue;
+            }
+
+            quantitiy = Math.floor(amount / coin.value);
+            change.push({coin: coin.text, quantitiy: quantitiy});
+
+            amount -= coin.value * quantitiy;
+        }
+
+        return change;
+    };
 };
 
 
@@ -46,6 +78,6 @@ var $input = $('.main-container input');
 $input.on('keypress', function (e) {
     if (e.keyCode === 13) {
         var value = this.value;
-        var amount = processor.convert(value);
+        processor.process(value);
     }
 });
