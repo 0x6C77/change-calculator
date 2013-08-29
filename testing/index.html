@@ -18,7 +18,7 @@
     var processor = new CoinProcessor();
 
         wru.test([{
-            name: "convert valid amounts",
+            name: "Convert valid amounts",
             test: function () {
                 wru.assert(
                     'Single digit',
@@ -74,7 +74,7 @@
                 );
             }
         }, {
-            name: "convert invalid amounts",
+            name: "Convert invalid amounts",
             test: function () {
                 wru.assert(
                     'Empty string',
@@ -91,6 +91,22 @@
                 wru.assert(
                     'Missing digits',
                     processor.convert('£p') === false
+                );
+            }
+        }, {
+            name: "Calculate correct numer of coins",
+            test: function () {
+                wru.assert(
+                    'Single coin',
+                    JSON.stringify(processor.calculateChange(100)) === '[{"coin":"£1","quantitiy":1}]'
+                );
+                wru.assert(
+                    'Multiple coins 1',
+                    JSON.stringify(processor.calculateChange(6)) === '[{"coin":"5p","quantitiy":1},{"coin":"1p","quantitiy":1}]'
+                );
+                wru.assert(
+                    'Multiple coins 2',
+                    JSON.stringify(processor.calculateChange(130)) === '[{"coin":"£1","quantitiy":1},{"coin":"20p","quantitiy":1},{"coin":"10p","quantitiy":1}]'
                 );
             }
         }]);
